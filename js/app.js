@@ -42,16 +42,24 @@ $(document).ready(()=>{
 		});
 	});
 	
-	
 	$("#buyBtn").click(async ()=>{
+		$(".inputBox").css("display", "flex");
+	});
+	
+	$(".inputBox .mask").click(async ()=>{
+		$(".inputBox").css("display", "none");
+	});
+	
+	$(".inputBox .submit-btn").click(async ()=>{
 		
-		if($(".buy-btn").hasClass("disable-btn")) {
+		if($(".submit-btn").hasClass("disable-btn")) {
 			return;
 		}
 		
 		$("body").loading({message:"SENDING...",zIndex:999});
 		
-		var amount = "0.1";
+		var amount = $(".inputBox input[name=amount]").val();
+		console.log(amount);
 		await window.game.buy(amount, function(receipt) {
 			
 				console.log(receipt.transactionHash);
