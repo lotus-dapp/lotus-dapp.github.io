@@ -51,7 +51,7 @@ $(document).ready(()=>{
 		
 		$("body").loading({message:"SENDING...",zIndex:999});
 		
-		var amount = "0.01";
+		var amount = "0.1";
 		await window.game.buy(amount, function(receipt) {
 			
 				console.log(receipt.transactionHash);
