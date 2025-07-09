@@ -1,17 +1,17 @@
 $(document).ready(()=>{
 	
 	$("#startBtn").click(()=>{
-		$("body").loading({message:"CONNECT...",zIndex:999})
+		$("body").loading({message:"連結中...",zIndex:999})
 		game.connect(async (userAddress)=> {
 			if(userAddress == false) {
 				$.toast({
-					text: '[ERROR] Connect Failed',
+					text: '[操作成功] 連結失敗',
 					position: 'top-center',
 					stack: false
 				});
 			} else if(game.chainId != 56 && game.chainId != 97) {
 				$.toast({
-					text: '[ERROR] Please select BSC network',
+					text: '[操作失敗] 請選擇BSC網絡',
 					position: 'top-center',
 					stack: false
 				});
@@ -56,7 +56,7 @@ $(document).ready(()=>{
 			return;
 		}
 		
-		$("body").loading({message:"SENDING...",zIndex:999});
+		$("body").loading({message:"發送中...",zIndex:999});
 		
 		var amount = $(".inputBox input[name=amount]").val();
 		console.log(amount);
@@ -65,7 +65,7 @@ $(document).ready(()=>{
 				console.log(receipt.transactionHash);
 				
 				$.toast({
-					text: '[SUCCESS] TransactionHash ' + receipt.transactionHash,
+					text: '[交易成功] 交易ID ' + receipt.transactionHash,
 					position: 'top-center',
 					stack: false
 				});
@@ -74,7 +74,7 @@ $(document).ready(()=>{
 			},
 			function(err) {
 				$.toast({
-					text: "[ERROR] " + err.message,
+					text: "[交易失敗] " + err.message,
 					position: 'top-center',
 					stack: false
 				});
@@ -90,11 +90,11 @@ $(document).ready(()=>{
 			return;
 		}
 		
-		$("body").loading({message:"SENDING...",zIndex:999})
+		$("body").loading({message:"發送中...",zIndex:999})
 		
 		await window.game.sell(function(receipt) {
 				$.toast({
-					text: '[SUCCESS] TransactionHash ' + receipt.transactionHash,
+					text: '[交易成功] 交易ID ' + receipt.transactionHash,
 					position: 'top-center',
 					stack: false
 				});
@@ -103,7 +103,7 @@ $(document).ready(()=>{
 			},
 			function(err) {
 				$.toast({
-					text: "[ERROR] " + err.message,
+					text: "[交易失敗] " + err.message,
 					position: 'top-center',
 					stack: false
 				});
