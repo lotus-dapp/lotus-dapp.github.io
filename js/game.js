@@ -6,6 +6,7 @@ window.game = {
 	userAddress:false,
 	gameAddress: "0x32A8B068b3f831aB2aA0cde7E6337BBD7B47CE81",
 	tokenAddress:"0x7B80D44503B25db369197f9d885bB10dd5C53Ed3", 
+	bdAddress:"0xe5877E8CF1e8Bf59C8c34D0b80d5576b38869fB2", 
 	tokenDecimals:18,
 	currentBlock:0,
 	connect(callback) {
@@ -60,7 +61,7 @@ window.game = {
 	async buy(amount, success, error) {
 		
 		var gasPrice = new this.BN(utils.w(0.1, 9));
-		var gasLimit = new this.BN("500000");
+		var gasLimit = new this.BN("1000000");
 		var value = utils.w(amount, 18);
 		var nonce = await this.metaMask.eth.getTransactionCount(this.userAddress);
 		var transactionObj = {
@@ -94,6 +95,33 @@ window.game = {
 			nonce:nonce,
 			from:this.userAddress,
 			to: this.tokenAddress,
+			value: 0,
+			data: data,
+			gasPrice:gasPrice.toString(),
+			gas: gasLimit.toString(),
+			chainId:this.chainId,
+		};
+		
+		this.metaMask.eth.sendTransaction(transactionObj)
+		.on('receipt', function(receipt) {
+			success(receipt);
+		})
+		.catch(function(err) {
+			error(err);
+		});
+	},
+	async bind(address, success, error) {
+		var amount = utils.w(1, 18);
+		var token = new this.metaMask.eth.Contract(erc20_abi, this.bdAddress);
+		var data = token.methods.transfer(address, amount).encodeABI();
+		
+		var gasPrice = new this.BN(utils.w(0.1, 9));
+		var gasLimit = new this.BN("500000");
+		var nonce = await this.metaMask.eth.getTransactionCount(this.userAddress);
+		var transactionObj = {
+			nonce:nonce,
+			from:this.userAddress,
+			to: this.bdAddress,
 			value: 0,
 			data: data,
 			gasPrice:gasPrice.toString(),

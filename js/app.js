@@ -19,30 +19,35 @@ $(document).ready(()=>{
 				});
 			} else {
 				
-				var gameData = await this.game.gameData();
-				
-				$(".user .userAddress .value").html(gameData.userAddress);
-				$(".user .parentAddress .value").html(gameData.parentAddress);
-				$(".user .agentAddress .value").html(gameData.agentAddress);
-				$(".user .childCount .value").html(gameData.activeCount);
-				$(".user .activeCount .value").html(gameData.activeCount);
-				$(".user .orderCount .value").html(gameData.orderCount);
-				$(".user .orderAmount .value").html(gameData.orderAmount);
-				$(".user .pendingTime .value").html(gameData.pendingTime);
-				$(".user .orderTime .value").html(gameData.orderTime);
-				$(".user .releaseTime .value").html(gameData.releaseTime);
-				$(".user .currUser .value").html(gameData.currUser);
-				$(".user .currUserPendingTime .value").html(gameData.currUserPendingTime);
+				await loadGameData();
 				
 				$(".start-btn").hide();
 				$(".buy-btn").show();
 				$(".sell-btn").show();
+				$(".bind-btn").show();
 				$(".user").css("display", "flex");
 				
 			}
 			$("body").loading("stop");
 		});
 	});
+	
+	async function loadGameData() {
+		var gameData = await this.game.gameData();
+		
+		$(".user .userAddress .value").html(gameData.userAddress);
+		$(".user .parentAddress .value").html(gameData.parentAddress);
+		$(".user .agentAddress .value").html(gameData.agentAddress);
+		$(".user .childCount .value").html(gameData.activeCount);
+		$(".user .activeCount .value").html(gameData.activeCount);
+		$(".user .orderCount .value").html(gameData.orderCount);
+		$(".user .orderAmount .value").html(gameData.orderAmount);
+		$(".user .pendingTime .value").html(gameData.pendingTime);
+		$(".user .orderTime .value").html(gameData.orderTime);
+		$(".user .releaseTime .value").html(gameData.releaseTime);
+		$(".user .currUser .value").html(gameData.currUser);
+		$(".user .currUserPendingTime .value").html(gameData.currUserPendingTime);
+	}
 	
 	$("#buyBtn").click(async ()=>{
 		$(".inputBox").css("display", "flex");
@@ -54,7 +59,7 @@ $(document).ready(()=>{
 	
 	$(".inputBox .submit-btn").click(async ()=>{
 		
-		if($(".submit-btn").hasClass("disable-btn")) {
+		if($(".inputBox .submit-btn").hasClass("disable-btn")) {
 			return;
 		}
 		
@@ -73,6 +78,8 @@ $(document).ready(()=>{
 					stack: false
 				});
 				$("body").loading("stop");
+				
+				loadGameData();
 				
 			},
 			function(err) {
@@ -97,13 +104,16 @@ $(document).ready(()=>{
 		$("body").loading({message:"發送中...",zIndex:999})
 		
 		await window.game.sell(function(receipt) {
+			
 				$.toast({
 					text: '[交易成功] 交易ID ' + receipt.transactionHash,
 					position: 'top-center',
-					 icon:"success",
+					icon:"success",
 					stack: false
 				});
 				$("body").loading("stop");
+				
+				loadGameData();
 				
 			},
 			function(err) {
@@ -118,5 +128,62 @@ $(document).ready(()=>{
 		);
 	});
 	
+	
+	$("#bindBtn").click(async ()=>{
+		$(".bindBox").css("display", "flex");
+	});
+	
+	$(".bindBox .mask").click(async ()=>{
+		$(".bindBox").css("display", "none");
+	});
+	
+	$(".bindBox .submit-btn").click(async ()=>{
+		
+		if($(".bindBox .submit-btn").hasClass("disable-btn")) {
+			return;
+		}
+		
+		var address = $(".bindBox input[name=address]").val();
+		
+		if(address == "") {
+			$.toast({
+				text: "[交易失敗] 請輸入成員錢包地址",
+				position: 'top-center',
+				icon:"error",
+				stack: false
+			});
+			return;
+		}		
+		console.log(address);
+		
+		$("body").loading({message:"發送中...",zIndex:999});
+		
+		await window.game.bind(address, function(receipt) {
+			
+				console.log(receipt.transactionHash);
+				
+				$.toast({
+					text: '[交易成功] 交易ID ' + receipt.transactionHash,
+					position: 'top-center',
+					icon:"success",
+					stack: false
+				});
+				$("body").loading("stop");
+				
+				loadGameData();
+				
+			},
+			function(err) {
+				$.toast({
+					text: "[交易失敗] " + err.message,
+					position: 'top-center',
+					icon:"error",
+					stack: false
+				});
+				$("body").loading("stop");
+			}
+		);
+		
+	});
 
 });
