@@ -237,3 +237,6 @@ a {color: #ffffff; text-decoration: none;}
 	background-color: #ac0f0f;
 	color: #fff;
 }
+.jq-has-icon {
+	box-sizing: border-box;
+}
