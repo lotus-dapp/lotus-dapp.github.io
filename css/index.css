@@ -221,3 +221,19 @@ a {color: #ffffff; text-decoration: none;}
 	background-color: #000000;
 	color: #fff;
 }
+
+.jq-toast-loader, .close-jq-toast-single {
+	display: none;
+}
+.jq-toast-single {
+	background-color: rgb(9 9 9);
+	/* border: 1px solid #676767; */
+}
+.jq-toast-single.jq-has-icon.jq-icon-success {
+	background-color: #10ab10;
+	color: #fff;
+}
+.jq-toast-single.jq-has-icon.jq-icon-error {
+	background-color: #ac0f0f;
+	color: #fff;
+}
