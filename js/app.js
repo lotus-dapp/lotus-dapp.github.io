@@ -5,14 +5,16 @@ $(document).ready(()=>{
 		game.connect(async (userAddress)=> {
 			if(userAddress == false) {
 				$.toast({
-					text: '[操作成功] 連結失敗',
+					text: '[操作失敗] 連結失敗',
 					position: 'top-center',
+					icon:"error",
 					stack: false
 				});
 			} else if(game.chainId != 56 && game.chainId != 97) {
 				$.toast({
 					text: '[操作失敗] 請選擇BSC網絡',
 					position: 'top-center',
+					icon:"error",
 					stack: false
 				});
 			} else {
@@ -67,6 +69,7 @@ $(document).ready(()=>{
 				$.toast({
 					text: '[交易成功] 交易ID ' + receipt.transactionHash,
 					position: 'top-center',
+					icon:"success",
 					stack: false
 				});
 				$("body").loading("stop");
@@ -76,6 +79,7 @@ $(document).ready(()=>{
 				$.toast({
 					text: "[交易失敗] " + err.message,
 					position: 'top-center',
+					icon:"error",
 					stack: false
 				});
 				$("body").loading("stop");
@@ -96,6 +100,7 @@ $(document).ready(()=>{
 				$.toast({
 					text: '[交易成功] 交易ID ' + receipt.transactionHash,
 					position: 'top-center',
+					 icon:"success",
 					stack: false
 				});
 				$("body").loading("stop");
@@ -105,6 +110,7 @@ $(document).ready(()=>{
 				$.toast({
 					text: "[交易失敗] " + err.message,
 					position: 'top-center',
+					icon:"error",
 					stack: false
 				});
 				$("body").loading("stop");
