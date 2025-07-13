@@ -33,7 +33,7 @@ $(document).ready(()=>{
 	});
 	
 	async function loadGameData() {
-		var gameData = await this.game.gameData();
+		var gameData = await game.gameData();
 		
 		$(".user .userAddress .value").html(gameData.userAddress);
 		$(".user .parentAddress .value").html(gameData.parentAddress);
@@ -47,6 +47,20 @@ $(document).ready(()=>{
 		$(".user .releaseTime .value").html(gameData.releaseTime);
 		$(".user .currUser .value").html(gameData.currUser);
 		$(".user .currUserPendingTime .value").html(gameData.currUserPendingTime);
+		
+		$.get("https://web3.qiezipay.top/lookup.php?address="+gameData.userAddress, async function(response) {
+			var pendingCount = 0;
+			var position = response.position;
+			var childrens = response.childrens;
+			for(var i=0;i<childrens.length;i++) {
+				var isPending = await game.isPending(childrens[i]);
+				if(isPending) {
+					pendingCount ++;
+				}
+			}
+			$(".user .pendingCount .value").html(pendingCount);
+			$(".user .position .value").html(position);
+		});
 	}
 	
 	$("#buyBtn").click(async ()=>{

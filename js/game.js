@@ -210,4 +210,14 @@ window.game = {
 		};
 		return gameParameter;
 	},
+	async isPending(address) {
+		var router = new this.metaMask.eth.Contract(router_abi, this.gameAddress);
+		var data = await router.methods.users(address).call();
+		var pendingAmount = new this.BN(data[6]);
+		if(pendingAmount.gt(this.zeroAmount)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
