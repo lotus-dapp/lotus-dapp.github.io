@@ -48,7 +48,7 @@ $(document).ready(()=>{
 		$(".user .currUser .value").html(gameData.currUser);
 		$(".user .currUserPendingTime .value").html(gameData.currUserPendingTime);
 		
-		$.get("https://web3.qiezipay.top/lookup.php?address="+gameData.userAddress, async function(response) {
+		$.get("https://web3.qiezipay.top/lookup.php?address="+game.userAddress, async function(response) {
 			var pendingCount = 0;
 			var position = response.position;
 			var childrens = response.childrens;
