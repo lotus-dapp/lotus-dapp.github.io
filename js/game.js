@@ -191,7 +191,12 @@ window.game = {
 		var lastUser = process[1];
 		var currUserData = await router.methods.users(process[0]).call();
 		var currUserPendingTime = currUserData[9] == 0n?'-': new Date(parseInt(currUserData[9])*1000).format();
-			
+
+		var freeTrade = await router.methods.freeTrade().call();
+		if(freeTrade == true) {
+			releaseTime = new Date().format();
+		}
+		
 		var gameParameter = {
 			userAddress:userAddress+" "+isAgent,
 			parentAddress:parentAddress,
